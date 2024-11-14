@@ -345,6 +345,15 @@ spec =
           showTestCase = show,
           testCaseSuffix = suffix1,
           checkIdempotence = True
+        },
+      TestGroup
+        { label = "hanging-dollar",
+          isMulti = False,
+          testCases = allOptions,
+          updateConfig = \hangingDollar opts -> opts {poHangingDollar = pure hangingDollar},
+          showTestCase = show,
+          testCaseSuffix = suffix1,
+          checkIdempotence = True
         }
     ]
 

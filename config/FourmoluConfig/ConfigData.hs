@@ -278,6 +278,16 @@ allOptions =
         ormolu = HsBool False,
         sinceVersion = Nothing,
         cliOverrides = emptyOverrides
+      },
+    Option
+      { name = "hanging-dollar",
+        fieldName = Just "poHangingDollar",
+        description = "Whether to treat $ as a special hanging operator",
+        type_ = "Bool",
+        default_ = HsBool True,
+        ormolu = HsBool True,
+        sinceVersion = Nothing,
+        cliOverrides = emptyOverrides
       }
   ]
 

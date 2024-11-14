@@ -83,6 +83,8 @@ data PrinterOpts f =
       poSortDerivedClasses :: f Bool
     , -- | Whether to sort deriving clauses
       poSortDerivingClauses :: f Bool
+    , -- | Whether to treat $ as a special hanging operator
+      poHangingDollar :: f Bool
     }
   deriving (Generic)
 
@@ -109,6 +111,7 @@ emptyPrinterOpts =
     , poSortConstraints = Nothing
     , poSortDerivedClasses = Nothing
     , poSortDerivingClauses = Nothing
+    , poHangingDollar = Nothing
     }
 
 defaultPrinterOpts :: PrinterOpts Identity
@@ -134,6 +137,7 @@ defaultPrinterOpts =
     , poSortConstraints = pure False
     , poSortDerivedClasses = pure False
     , poSortDerivingClauses = pure False
+    , poHangingDollar = pure True
     }
 
 -- | Fill the field values that are 'Nothing' in the first argument
@@ -166,6 +170,7 @@ fillMissingPrinterOpts p1 p2 =
     , poSortConstraints = maybe (poSortConstraints p2) pure (poSortConstraints p1)
     , poSortDerivedClasses = maybe (poSortDerivedClasses p2) pure (poSortDerivedClasses p1)
     , poSortDerivingClauses = maybe (poSortDerivingClauses p2) pure (poSortDerivingClauses p1)
+    , poHangingDollar = maybe (poHangingDollar p2) pure (poHangingDollar p1)
     }
 
 parsePrinterOptsCLI ::
@@ -254,6 +259,10 @@ parsePrinterOptsCLI f =
       "sort-deriving-clauses"
       "Whether to sort deriving clauses (default: false)"
       "BOOL"
+    <*> f
+      "hanging-dollar"
+      "Whether to treat $ as a special hanging operator (default: true)"
+      "BOOL"
 
 parsePrinterOptsJSON ::
   Applicative f =>
@@ -281,6 +290,7 @@ parsePrinterOptsJSON f =
     <*> f "sort-constraints"
     <*> f "sort-derived-classes"
     <*> f "sort-deriving-clauses"
+    <*> f "hanging-dollar"
 
 {---------- PrinterOpts field types ----------}
 
@@ -680,4 +690,7 @@ defaultPrinterOptsYaml =
     , ""
     , "# Whether to sort deriving clauses"
     , "sort-deriving-clauses: false"
+    , ""
+    , "# Whether to treat $ as a special hanging operator"
+    , "hanging-dollar: true"
     ]
